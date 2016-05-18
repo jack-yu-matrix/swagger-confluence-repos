@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ConfluencePageBuilderTest {
 
-    private static final Integer ANCESTOR_ID = 1;
+    private static final Long ANCESTOR_ID = 1L;
     private static final String CONFLUENCE_TITLE = "Confluence Title";
     private static final Boolean EXISTS = true;
     private static final String ID = "1";

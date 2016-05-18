@@ -18,7 +18,7 @@ package net.slkdev.swagger.confluence.model;
 import net.slkdev.swagger.confluence.constants.PageType;
 
 public class ConfluencePageBuilder {
-    private Integer ancestorId;
+    private Long ancestorId;
     private String confluenceTitle;
     private Boolean exists;
     private String id;
@@ -34,7 +34,7 @@ public class ConfluencePageBuilder {
         return new ConfluencePageBuilder();
     }
 
-    public ConfluencePageBuilder withAncestorId(Integer ancestorId) {
+    public ConfluencePageBuilder withAncestorId(Long ancestorId) {
         this.ancestorId = ancestorId;
         return this;
     }

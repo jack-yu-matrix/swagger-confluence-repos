@@ -47,7 +47,7 @@ public class SwaggerToConfluenceImplTest {
         swaggerToConfluenceService = new SwaggerToConfluenceServiceImpl(
                 swaggerToAsciiDocService, asciiDocToXHtmlService, xHtmlToConfluenceService);
         swaggerConfluenceConfig = new SwaggerConfluenceConfig();
-        swaggerConfluenceConfig.setAncestorId(1);
+        swaggerConfluenceConfig.setAncestorId(1L);
         swaggerConfluenceConfig.setIncludeTableOfContentsOnSinglePage(true);
         swaggerConfluenceConfig.setSpaceKey("TEST");
         swaggerConfluenceConfig.setSwaggerSchema("test.yaml");

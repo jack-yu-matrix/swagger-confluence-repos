@@ -98,13 +98,13 @@ public class SwaggerConfluence {
     private static SwaggerConfluenceConfig buildSwaggerConfluenceConfig(final CommandLine commandLine){
         final SwaggerConfluenceConfig swaggerConfluenceConfig = new SwaggerConfluenceConfig();
         final String ancestorIdString = commandLine.getOptionValue("a");
-        final Integer ancestorId;
+        final Long ancestorId;
 
         if(ancestorIdString == null){
             ancestorId = null;
         }
         else {
-            ancestorId = Integer.valueOf(ancestorIdString);
+            ancestorId = Long.valueOf(ancestorIdString);
         }
 
         swaggerConfluenceConfig.setAncestorId(ancestorId);

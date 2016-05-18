@@ -38,8 +38,8 @@ public class SwaggerConfluenceConfigTest {
 
     @Test
     public void testGetAndSetAncestorId(){
-        swaggerConfluenceConfig.setAncestorId(1);;
-        assertEquals("Expected AncestorId 1", Integer.valueOf(1),
+        swaggerConfluenceConfig.setAncestorId(1L);;
+        assertEquals("Expected AncestorId 1", Long.valueOf(1),
                 swaggerConfluenceConfig.getAncestorId());
     }
 
