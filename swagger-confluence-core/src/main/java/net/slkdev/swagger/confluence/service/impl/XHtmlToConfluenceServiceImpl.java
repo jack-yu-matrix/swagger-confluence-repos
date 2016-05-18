@@ -81,8 +81,8 @@ public class XHtmlToConfluenceServiceImpl implements XHtmlToConfluenceService {
         final Map<String, ConfluenceLink> titleLinkMap = buildTableOfContentsLinkMap();
         final List<ConfluencePage> confluencePages = handlePagination();
 
-        Integer categoryAncestorId = null;
-        Integer individualAncestorId = null;
+        Long categoryAncestorId = null;
+        Long individualAncestorId = null;
 
         for (final ConfluencePage confluencePage : confluencePages) {
             final PageType pageType = confluencePage.getPageType();
@@ -455,7 +455,7 @@ public class XHtmlToConfluenceServiceImpl implements XHtmlToConfluenceService {
 
             if (!ancestors.isEmpty()) {
                 final Map<String, Object> lastAncestor = (Map<String, Object>) ancestors.get(ancestors.size() - 1);
-                final Integer ancestorId = Integer.valueOf((String) lastAncestor.get(ID));
+                final Long ancestorId = Long.valueOf((String) lastAncestor.get(ID));
 
                 LOG.debug("ANCESTORS: {} : {}, CHOSE -> {}", ancestors.getClass().getName(), ancestors, ancestorId);
                 confluencePage.setAncestorId(ancestorId);
@@ -484,7 +484,7 @@ public class XHtmlToConfluenceServiceImpl implements XHtmlToConfluenceService {
                         .build();
                 addExistingPageData(spaceRootPage);
 
-                final Integer spaceRootAncestorId = Integer.valueOf(spaceRootPage.getId());
+                final Long spaceRootAncestorId = Long.valueOf(spaceRootPage.getId());
 
                 LOG.info("ORPHAN PREVENTION FAIL SAFE: Using Space Root Ancestor Id {}",
                         spaceRootAncestorId);
@@ -503,13 +503,13 @@ public class XHtmlToConfluenceServiceImpl implements XHtmlToConfluenceService {
         return headers;
     }
 
-    private static Integer getPageIdFromResponse(final HttpEntity<String> responseEntity) {
+    private static Long getPageIdFromResponse(final HttpEntity<String> responseEntity) {
         final String responseJson = responseEntity.getBody();
         final JSONParser jsonParser = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 
         try {
             final JSONObject response = jsonParser.parse(responseJson, JSONObject.class);
-            return Integer.valueOf((String) response.get(ID));
+            return Long.valueOf((String) response.get(ID));
         } catch (ParseException e) {
             throw new ConfluenceAPIException("Error Parsing JSON Response from Confluence!", e);
         }
@@ -605,7 +605,7 @@ public class XHtmlToConfluenceServiceImpl implements XHtmlToConfluenceService {
 
         LOG.debug("CREATE PAGE RESPONSE: {}", responseEntity.getBody());
 
-        final Integer pageId = getPageIdFromResponse(responseEntity);
+        final Long pageId = getPageIdFromResponse(responseEntity);
         page.setAncestorId(pageId);
     }
 
@@ -635,11 +635,11 @@ public class XHtmlToConfluenceServiceImpl implements XHtmlToConfluenceService {
 
         LOG.debug("UPDATE PAGE RESPONSE: {}", responseEntity.getBody());
 
-        final Integer pageId = getPageIdFromResponse(responseEntity);
+        final Long pageId = getPageIdFromResponse(responseEntity);
         page.setAncestorId(pageId);
     }
 
-    private static JSONObject buildPostBody(final Integer ancestorId, final String confluenceTitle, final String xhtml) {
+    private static JSONObject buildPostBody(final Long ancestorId, final String confluenceTitle, final String xhtml) {
         final SwaggerConfluenceConfig swaggerConfluenceConfig = SWAGGER_CONFLUENCE_CONFIG.get();
 
         final JSONObject jsonSpaceObject = new JSONObject();

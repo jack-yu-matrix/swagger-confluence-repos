@@ -337,7 +337,7 @@ public class XHtmlToConfluenceServiceImplTest {
 		final SwaggerConfluenceConfig swaggerConfluenceConfig = new SwaggerConfluenceConfig();
 
 		swaggerConfluenceConfig.setAuthentication(getTestAuthentication());
-		swaggerConfluenceConfig.setAncestorId(0);
+		swaggerConfluenceConfig.setAncestorId(0L);
 		swaggerConfluenceConfig.setConfluenceRestApiUrl("https://localhost/confluence/rest/api/");
 		swaggerConfluenceConfig.setPrefix("");
 		swaggerConfluenceConfig.setSpaceKey("DOC");

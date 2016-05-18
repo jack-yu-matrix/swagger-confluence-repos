@@ -21,7 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class SwaggerConfluenceConfig {
 
-    private Integer ancestorId;
+    private Long ancestorId;
     private String authentication;
     private String confluenceRestApiUrl;
     private boolean generateNumericPrefixes;
@@ -38,11 +38,11 @@ public class SwaggerConfluenceConfig {
         paginationMode = PaginationMode.SINGLE_PAGE;
     }
 
-    public Integer getAncestorId() {
+    public Long getAncestorId() {
         return ancestorId;
     }
 
-    public void setAncestorId(final Integer ancestorId) {
+    public void setAncestorId(final Long ancestorId) {
         this.ancestorId = ancestorId;
     }
 

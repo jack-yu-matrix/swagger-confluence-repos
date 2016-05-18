@@ -19,7 +19,7 @@ import net.slkdev.swagger.confluence.constants.PageType;
 
 public class ConfluencePage {
 
-    private Integer ancestorId;
+    private Long ancestorId;
     private String confluenceTitle;
     private Boolean exists;
     private String id;
@@ -28,11 +28,11 @@ public class ConfluencePage {
     private Integer version;
     private String xhtml;
 
-    public Integer getAncestorId() {
+    public Long getAncestorId() {
         return ancestorId;
     }
 
-    public void setAncestorId(Integer ancestorId) {
+    public void setAncestorId(Long ancestorId) {
         this.ancestorId = ancestorId;
     }
 
