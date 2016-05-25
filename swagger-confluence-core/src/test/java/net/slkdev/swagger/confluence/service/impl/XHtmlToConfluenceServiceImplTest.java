@@ -55,6 +55,15 @@ public class XHtmlToConfluenceServiceImplTest {
             "page\",\"status\":\"current\",\"title\":\"Test\",\"extensions\":{\"position\":\"none\"" +
             "}}]}}";
 
+    private static final String GET_SPACE = "{\"page\":{\"results\":[{\"id\":\"1277959\",\"type\":\"" +
+            "page\",\"status\":\"current\",\"title\":\"My Test\",\"extensions\":{\"position\":\"none\"" +
+            "},\"_links\":{\"webui\":\"/display/TEST/My+Test\",\"tinyui\":\"/x/BAAv\",\"self\":\"" +
+            "https://localhost/confluence/rest/api/content/1277959\"},\"_expandable\":{\"container\":\"" +
+            "/rest/api/space/TEST\",\"metadata\":\"\",\"operations\":\"\",\"children\":\"" +
+            "/rest/api/content/2/child\",\"history\":\"/rest/api/content/1277959/history\",\"ancestors" +
+            "\":\"\",\"body\":\"\",\"version\":\"\",\"descendants\":\"/rest/api/content/2/descendant\"," +
+            "\"space\":\"/rest/api/space/TEST\"}}]}}";
+
 	private static final String POST_RESPONSE = "{\"id\":\"1\"}";
 
     private static final List<Integer> CATEGORY_INDEXES = Arrays.asList(1, 6, 25, 31);
@@ -87,7 +96,7 @@ public class XHtmlToConfluenceServiceImplTest {
                 responseEntity);
 		when(restTemplate.exchange(any(URI.class), eq(HttpMethod.POST),
 				any(HttpEntity.class), eq(String.class))).thenReturn(responseEntity);
-		when(responseEntity.getBody()).thenReturn(GET_RESPONSE_NOT_FOUND, GET_RESPONSE_FOUND,
+		when(responseEntity.getBody()).thenReturn(GET_RESPONSE_NOT_FOUND, GET_SPACE,
                 POST_RESPONSE);
 
 		final ArgumentCaptor<HttpEntity> httpEntityCaptor = ArgumentCaptor.forClass(HttpEntity.class);

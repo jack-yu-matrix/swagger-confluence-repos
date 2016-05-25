@@ -26,6 +26,7 @@ import net.slkdev.swagger.confluence.constants.PageType;
 import net.slkdev.swagger.confluence.constants.PaginationMode;
 import net.slkdev.swagger.confluence.exception.ConfluenceAPIException;
 import net.slkdev.swagger.confluence.exception.SwaggerConfluenceConfigurationException;
+import net.slkdev.swagger.confluence.exception.SwaggerConfluenceInternalSystemException;
 import net.slkdev.swagger.confluence.model.ConfluenceLink;
 import net.slkdev.swagger.confluence.model.ConfluenceLinkBuilder;
 import net.slkdev.swagger.confluence.model.ConfluencePage;
@@ -478,19 +479,46 @@ public class XHtmlToConfluenceServiceImpl implements XHtmlToConfluenceService {
             // does not do this automatically, and thus you would otherwise not be
             // able to navigate to the page unless you manually knew the URL
             if (confluencePage.getAncestorId() == null) {
-                final ConfluencePage spaceRootPage = ConfluencePageBuilder.aConfluencePage()
-                        .withConfluenceTitle(swaggerConfluenceConfig.getSpaceKey())
-                        .withOriginalTitle(swaggerConfluenceConfig.getSpaceKey())
-                        .build();
-                addExistingPageData(spaceRootPage);
-
-                final Long spaceRootAncestorId = Long.valueOf(spaceRootPage.getId());
+                final Long spaceRootAncestorId = getRootPageId();
 
                 LOG.info("ORPHAN PREVENTION FAIL SAFE: Using Space Root Ancestor Id {}",
                         spaceRootAncestorId);
 
                 confluencePage.setAncestorId(spaceRootAncestorId);
             }
+        }
+    }
+
+    private Long getRootPageId(){
+        final SwaggerConfluenceConfig swaggerConfluenceConfig = SWAGGER_CONFLUENCE_CONFIG.get();
+
+        final HttpHeaders httpHeaders = buildHttpHeaders(swaggerConfluenceConfig.getAuthentication());
+        final HttpEntity<String> requestEntity = new HttpEntity<>(httpHeaders);
+
+        final URI targetUrl = UriComponentsBuilder.fromUriString(swaggerConfluenceConfig.getConfluenceRestApiUrl())
+                .path(
+                        String.format("/space/%s/content", swaggerConfluenceConfig.getSpaceKey())
+                )
+                .build()
+                .toUri();
+
+        final ResponseEntity<String> responseEntity = restTemplate.exchange(targetUrl,
+                HttpMethod.GET, requestEntity, String.class);
+
+        final String jsonBody = responseEntity.getBody();
+
+        try {
+            LOG.debug("SPACE CONTENT - GET RESPONSE: {}", jsonBody);
+
+            final String id = JsonPath.read(jsonBody, "$.page.results[0].id");
+            return Long.valueOf(id);
+        }
+        catch(final PathNotFoundException e){
+            throw new SwaggerConfluenceInternalSystemException(
+                    "Unable to detect the root page id for the requested space. This should not " +
+                            "happen and is a bug. Please file an issue describing your space layout. " +
+                            "You may work around this issue by providing an ancestor id.", e
+            );
         }
     }
 
